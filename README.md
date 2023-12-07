@@ -1,2 +1,3 @@
 # assignment-03
-check canvas for instructions
+deployed app url: 
+https://client-q76nhe9t3-liyao-zhangs-projects.vercel.app/
