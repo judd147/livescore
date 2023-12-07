@@ -1,8 +1,10 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { useAuthToken } from "./AuthTokenContext";
 import { useFavouritesContext } from './FavouritesContext';
 
 export const useFavouriteFunctions = () => {
   const { accessToken } = useAuthToken();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
   const { favourites, setFavourites } = useFavouritesContext();
 
   // Update favourite to the database
@@ -38,11 +40,14 @@ export const useFavouriteFunctions = () => {
       // Add to favourites
       updatedFavourites = [...favourites, matchId];
     }
-    // Update state optimistically
-    setFavourites(updatedFavourites);
-    // Update to the database
-    await updateFavourites(matchId);
+    if (isAuthenticated) {
+      // Update state optimistically
+      setFavourites(updatedFavourites);
+      // Update to the db
+      await updateFavourites(matchId);
+    } else {
+      loginWithRedirect();
+    }
   };
-
   return { handleFavourite };
 };

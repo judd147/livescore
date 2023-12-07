@@ -32,11 +32,10 @@ app.get("/ping", (req, res) => {
 // ✅ get all matches(last 7 days maybe) 🚧
 // ✅ get team details
 // ✅ verify user
-// ❓ get user profile
-// ❓ update user profile
+// ✅ get user profile
+// ✅ update user profile
 // ✅ get favourite matches
 // ✅ create/delete a favourite match
-// 🤫 match detail widget
 
 // Route for creating a match
 app.post("/", async (req, res) => {
@@ -193,6 +192,24 @@ app.put("/profile", requireAuth, async (req, res) => {
   res.json(updatedUser);
 });
 
+// Route for updatinf a match
+app.put("/matches/:id", async (req, res) => {
+  const id = req.params.id;
+  const { status, homeScore, awayScore } = req.body;
+
+  const updatedMatch = await prisma.match.update({
+    where: {
+      id: parseInt(id)
+    },
+    data: {
+      status,
+      homeScore,
+      awayScore
+    }
+  });
+  res.json(updatedMatch);
+})
+
 // Route for getting favourite matches
 app.get("/favourites", requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
@@ -262,6 +279,7 @@ app.post("/favourites", requireAuth, async (req, res) => {
   }
 });
 
-app.listen(8000, () => {
-  console.log("Server running on http://localhost:8000 🎉 🚀");
+const PORT = parseInt(process.env.PORT) || 8080
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT} 🎉 🚀`);
 });
