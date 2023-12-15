@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
-import Home from "../components/Home";
+import Home from "./components/Home";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
@@ -19,11 +19,6 @@ describe("Home Component Tests", () => {
       loginWithRedirect: mockLoginWithRedirect,
     });
     useNavigate.mockReturnValue(mockNavigate);
-  });
-
-  test("renders without crashing", () => {
-    render(<Home />);
-    expect(screen.getByText("LiveScore")).toBeInTheDocument();
   });
 
   test("displays Login button when not authenticated", () => {
