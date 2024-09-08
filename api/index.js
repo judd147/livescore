@@ -192,7 +192,7 @@ app.put("/profile", requireAuth, async (req, res) => {
   res.json(updatedUser);
 });
 
-// Route for updatinf a match
+// Route for updating a match
 app.put("/matches/:id", async (req, res) => {
   const id = req.params.id;
   const { status, homeScore, awayScore } = req.body;
